@@ -70,7 +70,7 @@
 ### Options
 
 属性 | 说明 | 默认值 |
--|-|-|-
+-|-|-
 centerTime | 初始时间(时间轴最中间)(Date) | 当前时间 |
 showTimeNumber | 总轴显示刻度个数(Number) | 24 |
 dateType | 时间格式 | YYYY-MM-DD HH:mm |

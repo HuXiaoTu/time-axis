@@ -9,8 +9,7 @@ import TimeAxis from './timeAxis/timeAxis';
 export default {
     name: 'app',
     data() {
-        return {
-        }
+        return {}
     },
     components: {
         TimeAxis,           // 时间轴
