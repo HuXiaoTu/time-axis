@@ -13,12 +13,12 @@
 - ``` npm i time-shaft ```  //安装包资源
 
 ### 全局注册方式
-``` JavaScript
+``` bash
     //main.js中引入
     import TimeShaft from 'time-shaft'
     Vue.use(TimeShaft)
 ```
-``` JavaScript
+``` bash
     //*.vue中 直接使用
     <time-shaft
         @getDateMessage="getDateMessage"
@@ -38,7 +38,7 @@
 ```
 
 ### 单独使用
-``` JavaScript
+``` bash
     //*.vue中 直接使用
     <template>
         <time-shaft
