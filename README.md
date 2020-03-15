@@ -83,8 +83,8 @@ leftRightLength | 左右切换时 切换的步长(小时)(Number) | 1 |
 isAutoRefresh | 是否启动监听刷新(Boolean) | true |
 autoRefreshMinute | 启动监听刷新间隔(分钟)(Number) | 1 |
 
-> isAutoRefresh 自动刷新详解
-    自动刷新表示时间轴会随着设定的刷新间隔进行整个时间的更新，当切换总轴的左右按钮时将停止刷新
+- isAutoRefresh 自动刷新详解
+  自动刷新表示时间轴会随着设定的刷新间隔进行整个时间的更新，当切换总轴的左右按钮时将停止刷新
 ### Methods
 
 事件名称 | 说明 | 参数
@@ -92,8 +92,8 @@ autoRefreshMinute | 启动监听刷新间隔(分钟)(Number) | 1 |
 getDateMessage | 当改变时间触发 | 当前时间(Object)
 
 
-> getDateMessage参数详解 参数中含type字段 可能出现的结果为
-    spot(拖动点触发) region(拖动区域触发) regionStretch(拉伸区域触发) autoRefresh(定时刷新触发) left(时间轴左侧箭头触发 注:切换左右按钮时间不发
+- getDateMessage参数详解 参数中含type字段 可能出现的结果为
+  spot(拖动点触发) region(拖动区域触发) regionStretch(拉伸区域触发) autoRefresh(定时刷新触发) left(时间轴左侧箭头触发 注:切换左右按钮时间不发
     生改变) right(时间轴右侧箭头触发 注:切换左右按钮时间不发生改变)
 
 ## 二次开发
