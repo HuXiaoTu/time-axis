@@ -5,14 +5,19 @@
 </template>
 
 <script>
+import '../css/iconFont/iconfont.css';
+import 'element-ui/lib/theme-chalk/index.css';
 import dayjs from 'dayjs';
+import { Notification } from 'element-ui';
 export default {
     name: 'timeAxis',
     props: {
         // 初始时间
         centerTime: {
             type: Date,
-            default: new Date(),
+            default: function () {
+                return new Date();
+            },
         },
         // 要展示几个时间
         showTimeNumber: {
@@ -239,10 +244,16 @@ export default {
                             time: time,
                             left: left,
                         }
+                        // 是否启动监听刷新
+                        if (that.isAutoRefresh) {
+                            that.openAutoRefresh(that.autoRefreshMinute);
+                        }
                         // 抛出数据
                         that.$emit('getDateMessage', {
-                            liveTIme: that.liveTIme,
-                            predictionTime: that.predictionTime,
+                            spotTime: that.liveTIme.time,
+                            regionStartTime: that.predictionTime.startTime,
+                            regionEndTime: that.predictionTime.endTime,
+                            type: 'spot',
                         })
                     }
                 }
@@ -308,8 +319,10 @@ export default {
                         }
                         // 抛出数据
                         that.$emit('getDateMessage', {
-                            liveTIme: that.liveTIme,
-                            predictionTime: that.predictionTime,
+                            spotTime: that.liveTIme.time,
+                            regionStartTime: that.predictionTime.startTime,
+                            regionEndTime: that.predictionTime.endTime,
+                            type: 'region',
                         })
                     }
                 }
@@ -331,20 +344,28 @@ export default {
 
 
                 if (predictionTime.left + that.regionalScopeChange > box.offsetWidth) {
-                    // that.popUp({ message: '超出范围', duration: 500 });
-                    // Notification({
-                    //     title: "提示信息",
-                    //     offset: 100,
-                    //     type: "warning",
-                    //     message: "超出范围",
-                    //     duration: 500,
-                    // });
+                    Notification({
+                        title: "提示信息",
+                        offset: 100,
+                        type: "warning",
+                        message: "超出范围",
+                        duration: 500,
+                        showClose: false
+                    });
                     return
                 };
 
                 that.liveTIme = liveTIme;
                 that.predictionTime = predictionTime;
                 that.centerTimeChange.left += that.leftRightLength * 60;
+
+                // 抛出数据
+                that.$emit('getDateMessage', {
+                    spotTime: that.liveTIme.time,
+                    regionStartTime: that.predictionTime.startTime,
+                    regionEndTime: that.predictionTime.endTime,
+                    type: 'left',
+                })
 
                 box.innerHTML = '';
                 let noTime = that.leftRightTime ? that.leftRightTime : that.centerTimeChange.time;
@@ -363,13 +384,28 @@ export default {
                 predictionTime.left = predictionTime.left - that.leftRightLength * 60;
 
                 if (liveTIme.left < 0) {
-                    that.popUp({ message: '超出范围', duration: 500 });
+                    Notification({
+                        title: "提示信息",
+                        offset: 100,
+                        type: "warning",
+                        message: "超出范围",
+                        duration: 500,
+                        showClose: false
+                    });
                     return
                 };
 
                 that.liveTIme = liveTIme;
                 that.predictionTime = predictionTime;
                 that.centerTimeChange.left -= that.leftRightLength * 60;
+
+                // 抛出数据
+                that.$emit('getDateMessage', {
+                    spotTime: that.liveTIme.time,
+                    regionStartTime: that.predictionTime.startTime,
+                    regionEndTime: that.predictionTime.endTime,
+                    type: 'right',
+                })
 
                 box.innerHTML = '';
                 let noTime = that.leftRightTime ? that.leftRightTime : that.centerTimeChange.time;
@@ -410,8 +446,10 @@ export default {
                         }
                         // 抛出数据
                         that.$emit('getDateMessage', {
-                            liveTIme: that.liveTIme,
-                            predictionTime: that.predictionTime,
+                            spotTime: that.liveTIme.time,
+                            regionStartTime: that.predictionTime.startTime,
+                            regionEndTime: that.predictionTime.endTime,
+                            type: 'regionStretch',
                         })
                     }
                 }
@@ -438,6 +476,13 @@ export default {
                 that.liveTIme = liveTIme;
                 that.predictionTime = predictionTime;
 
+                // 抛出数据
+                that.$emit('getDateMessage', {
+                    spotTime: liveTIme.time,
+                    regionStartTime: predictionTime.startTime,
+                    regionEndTime: predictionTime.endTime,
+                    type: 'autoRefresh',
+                })
 
                 box.innerHTML = '';
                 let time = dayjs(newTime).format(that.dateComputed);

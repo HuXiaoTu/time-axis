@@ -1,7 +1,7 @@
 {
-  "name": "time-axis",
+  "name": "time-shaft",
   "description": "This is a timeline plug-in",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "author": "HuXiaoTu <13676373110@163.com>",
   "license": "MIT",
   "private": false,
@@ -11,6 +11,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "dayjs": "^1.8.22",
+    "element-ui": "^2.13.0",
     "vue": "^2.5.11"
   },
   "browserslist": [

@@ -1,4 +1,4 @@
-# time-axis
+# time-shaft
 
 > 一个时间轴选择插件
 
@@ -10,20 +10,20 @@
 
 ## 使用
 
-- ``` npm install time-axis ```  //安装包资源
+- ``` npm i time-shaft ```  //安装包资源
 
 ### 全局注册方式
 ``` JavaScript
     //main.js中引入
-    import TimeAxis from 'time-axis'
-    Vue.use(time-axis)
+    import TimeShaft from 'time-shaft'
+    Vue.use(TimeShaft)
 ```
 ``` JavaScript
     //*.vue中 直接使用
-    <time-axis
+    <time-shaft
         @getDateMessage="getDateMessage"
     >
-    </time-axis>
+    </time-shaft>
     export default {
         data() {
             return {}
@@ -41,13 +41,13 @@
 ``` JavaScript
     //*.vue中 直接使用
     <template>
-        <time-axis
+        <time-shaft
             @getDateMessage="getDateMessage"
         >
-        </time-axis>
+        </time-shaft>
     </template>
     // 引入组件
-    import TimeAxis from 'time-axis'
+    import TimeShaft from 'time-shaft'
     export default {
         data() {
             return {}
@@ -60,7 +60,7 @@
         },
         // 注册组件
         components:{
-            TimeAxis,
+            TimeShaft,
         }
     }
 ```
@@ -83,11 +83,18 @@ leftRightLength | 左右切换时 切换的步长(小时)(Number) | 1 |
 isAutoRefresh | 是否启动监听刷新(Boolean) | true |
 autoRefreshMinute | 启动监听刷新间隔(分钟)(Number) | 1 |
 
+> isAutoRefresh 自动刷新详解
+    自动刷新表示时间轴会随着设定的刷新间隔进行整个时间的更新，当切换总轴的左右按钮时将停止刷新
 ### Methods
 
 事件名称 | 说明 | 参数
 -|-|-
-getDateMessage | 当时间被选中是触发 | 当前选中的值(Object) |
+getDateMessage | 当改变时间触发 | 当前时间(Object)
+
+
+> getDateMessage参数详解 参数中含type字段 可能出现的结果为
+    spot(拖动点触发) region(拖动区域触发) regionStretch(拉伸区域触发) autoRefresh(定时刷新触发) left(时间轴左侧箭头触发 注:切换左右按钮时间不发
+    生改变) right(时间轴右侧箭头触发 注:切换左右按钮时间不发生改变)
 
 ## 二次开发
 
@@ -110,3 +117,7 @@ GitHub项目地址[https://github.com/HuXiaoTu/time-axis](https://github.com/HuX
     └─timeAxis                  // 组件开发区
 ```
 
+## V1.0.1 版本内容更新
+1. 修复图标不显示问题 更新README
+## V1.0.2 版本内容更新
+1. 修复超出范围提示功能样式问题
