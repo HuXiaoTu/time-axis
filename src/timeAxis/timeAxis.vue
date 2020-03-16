@@ -71,6 +71,11 @@ export default {
             type: Number,
             default: 1,
         },
+        // 是否显示刷新按钮
+        isShowRefresh: {
+            type: Boolean,
+            default: true
+        }
     },
     data() {
         return {
@@ -127,9 +132,9 @@ export default {
             // 数据初始化
             this.initData(initialTime);
             // 各个组件、按钮等初始化
-            let { PositionBtn, positionRegion, positionLeftBtn, positionRightBtn, positionRegionBox, stretchBox } = this.componentsInit(box);
+            let { PositionBtn, positionRegion, positionLeftBtn, positionRightBtn, positionRegionBox, stretchBox, refreshBtn } = this.componentsInit(box);
             // 各类事件绑定
-            this.methodsInit({ PositionBtn, positionRegion, positionLeftBtn, positionRightBtn, positionRegionBox, box, stretchBox });
+            this.methodsInit({ PositionBtn, positionRegion, positionLeftBtn, positionRightBtn, positionRegionBox, box, stretchBox, refreshBtn });
 
         },
         // 初始化数据
@@ -144,16 +149,17 @@ export default {
             // 创建时间轴
             let TimeAxis = this.createTimeAxis(box);
             // 创建可移动按钮(实况)
-            let PositionBtn = this.isTimeBtn ? this.createPositionBtn(box) : null;
+            let PositionBtn = this.isTimeBtn ? this.createPositionBtn(box) : '';
             // 创建可移动区域(预报)
-            let { positionRegion, positionRegionBox, stretchBox } = this.isTimeRegion ? this.createPositionRegion(box) : null;
+            let { positionRegion, positionRegionBox, stretchBox } = this.isTimeRegion ? this.createPositionRegion(box) : '';
             // 创建左右切换箭头
             let { positionLeftBtn, positionRightBtn } = this.createPositionLeftRight(box);
-
-            return { PositionBtn, positionRegion, positionLeftBtn, positionRightBtn, positionRegionBox, stretchBox }
+            // 创建刷新按钮
+            let { refreshBtn } = this.isShowRefresh ? this.createRefreshBtn(box) : '';
+            return { PositionBtn, positionRegion, positionLeftBtn, positionRightBtn, positionRegionBox, stretchBox, refreshBtn }
         },
         // 各类事件绑定
-        methodsInit({ PositionBtn, positionRegion, positionLeftBtn, positionRightBtn, positionRegionBox, box, stretchBox }) {
+        methodsInit({ PositionBtn, positionRegion, positionLeftBtn, positionRightBtn, positionRegionBox, box, stretchBox, refreshBtn }) {
             let body = document.body;
             if (PositionBtn) {
                 // 可移动按钮事件绑定
@@ -162,6 +168,10 @@ export default {
             if (positionRegion) {
                 // 可移动区域事件绑定
                 this.PositionRegionMethods({ positionRegion, body, box, PositionBtn });
+            }
+            if (refreshBtn) {
+                // 手动刷新按钮绑定事件
+                this.manualRefresh(refreshBtn);
             }
             // 左右箭头按钮绑定事件
             this.leftRightMethods({ positionLeftBtn, positionRightBtn, box });
@@ -456,7 +466,46 @@ export default {
 
             }
         },
-        // 启动刷新监听事件
+        // 手动刷新  监听事件
+        manualRefresh(refreshBtn) {
+            let box = document.getElementById('TimeAxisContent');
+            let that = this;
+
+            refreshBtn.onclick = function () {
+                // 关闭刷新监听
+                clearInterval(that.autoRefreshHandel);
+
+                let newTime = new Date();
+                // 当前时间(可变化)
+                that.centerTimeChange = { time: newTime, left: that.TimeAxislength * 60 / 2 };
+                // 设置当前选中实况信息
+                that.liveTIme = {
+                    time: dayjs(newTime).format(that.dateComputed),
+                    left: that.TimeAxislengthMinute / 2,
+                };
+                // 设置当前选中预报信息
+                that.predictionTime = {
+                    startTime: dayjs(newTime).format(that.dateComputed),
+                    endTime: dayjs(newTime).add(that.regionalScopeChange, 'minute').format(that.dateComputed),
+                    left: that.TimeAxislengthMinute / 2
+                };
+
+                // 重启定时器
+                that.openAutoRefresh(that.autoRefreshMinute);
+
+                // 抛出数据
+                that.$emit('getDateMessage', {
+                    spotTime: that.liveTIme.time,
+                    regionStartTime: that.predictionTime.startTime,
+                    regionEndTime: that.predictionTime.endTime,
+                    type: 'manuaRefresh',
+                })
+
+                box.innerHTML = '';
+                that.init(newTime);
+            }
+        },
+        // 自动刷新  监听事件
         openAutoRefresh(autoRefreshMinute) {
             let box = document.getElementById('TimeAxisContent');
             let that = this;
@@ -485,11 +534,7 @@ export default {
                 })
 
                 box.innerHTML = '';
-                let time = dayjs(newTime).format(that.dateComputed);
-                that.init(time);
-
-
-                console.info('ws >>>>刷新时间');
+                that.init(newTime);
             }, autoRefreshMinute * 60 * 1000);
         },
         /**
@@ -520,7 +565,6 @@ export default {
             let totalLength = this.TimeAxislengthMinute;
             // 根据总时长和当前时间和显示个数 计算出 各个点的时间
             let timeList = this.getTimeSlot({ getStartTime, totalLength, showTimeNumber, getEndTime });
-
             timeList.forEach((item) => {
                 // 创建节点大盒子
                 let nodeDiv = document.createElement('div');
@@ -613,6 +657,13 @@ export default {
 
             return { positionLeftBtn, positionRightBtn }
         },
+        // 创建刷新按钮
+        createRefreshBtn(box) {
+            let refreshBtn = document.createElement('span');
+            refreshBtn.classList.add('refreshBtn', 'iconfont', 'icon-refresh');
+            box.appendChild(refreshBtn);
+            return { refreshBtn };
+        },
         /**
         * 各类算法区域----------------------------------------------------------↓----------
         */
@@ -655,12 +706,6 @@ export default {
     border-radius: 8px;
     background-color: rgb(255, 255, 255);
     border: 1px solid #ccc;
-    // 禁止页面选中
-    -moz-user-select: none; /*火狐*/
-    -webkit-user-select: none; /*webkit浏览器*/
-    -ms-user-select: none; /*IE10*/
-    -khtml-user-select: none; /*早期浏览器*/
-    user-select: none;
     #TimeAxisContent {
         position: absolute;
         bottom: 20px;
@@ -831,11 +876,30 @@ export default {
         .positionRightBtn {
             right: -30px;
         }
+        // 刷新按钮
+        .refreshBtn {
+            position: absolute;
+            left: -35px;
+            top: -40px;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            font-size: 18px;
+            color: #023a02;
+            cursor: pointer;
+            font-weight: 800;
+        }
     }
 }
 </style>
 <style lang="scss">
 .TimeAxisContent {
+    // 禁止页面选中
+    -moz-user-select: none; /*火狐*/
+    -webkit-user-select: none; /*webkit浏览器*/
+    -ms-user-select: none; /*IE10*/
+    -khtml-user-select: none; /*早期浏览器*/
+    user-select: none;
     div,
     p,
     span,

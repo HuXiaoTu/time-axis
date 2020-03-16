@@ -36,11 +36,19 @@ module.exports = {
           'sass-loader?indentedSyntax'
         ],
       },
+      // {
+      //   test: /\.(woff|woff2|eot|ttf|otf)$/,
+      //   loader: 'url-loader',
+      //   options: {
+      //     limit: 100000,  //这里要足够大这样所有的字体图标都会打包到css中
+      //   }
+      // },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          'file-loader'
-        ]
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]'
+        }
       },
       {
         test: /\.vue$/,

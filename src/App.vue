@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <TimeAxis></TimeAxis>
+        <TimeAxis @getDateMessage="getDateMessage"></TimeAxis>
     </div>
 </template>
 
@@ -10,6 +10,11 @@ export default {
     name: 'app',
     data() {
         return {}
+    },
+    methods: {
+        getDateMessage(data) {
+            console.info('ws data>>>>', data);
+        }
     },
     components: {
         TimeAxis,           // 时间轴
