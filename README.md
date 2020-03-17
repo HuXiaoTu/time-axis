@@ -2,11 +2,11 @@
 
 > 一个时间轴选择插件
 
-> [GitHub项目地址](https://github.com/HuXiaoTu/time-axis "GitHub")
-
-> 效果演示: [https://github.com/HuXiaoTu/time-axis](https://github.com/HuXiaoTu/time-axis "GitHub")
+> [GitHub项目地址,'https://github.com/HuXiaoTu/time-axis'](https://github.com/HuXiaoTu/time-axis "GitHub")
 
 > 欢迎留言沟通: 13676373110@163.com
+
+## demo演示
 
 ![](https://github.com/HuXiaoTu/time-axis/blob/master/src/assets/time-axis.gif)
 
