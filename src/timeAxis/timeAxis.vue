@@ -6,7 +6,7 @@
 
 <script>
 import '../css/iconFont/iconfont.css';
-import 'element-ui/lib/theme-chalk/index.css';
+import '../css/theme/index.css';
 import dayjs from 'dayjs';
 import { Notification } from 'element-ui';
 export default {

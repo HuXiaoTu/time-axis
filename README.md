@@ -125,3 +125,6 @@ GitHub项目地址[https://github.com/HuXiaoTu/time-axis](https://github.com/HuX
 ## V1.0.4 版本内容更新
 1. 增加刷新功能
 2. 优化代码
+## V1.0.5 版本内容更新
+1. 修复图标不能正常显示问题
+2. 优化插件代码，减少体积

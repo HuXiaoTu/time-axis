@@ -1,8 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
-const NODE_ENV = process.env.NODE_ENV;
 module.exports = {
-  entry: NODE_ENV == 'development' ? './src/main.js' : './src/timeAxis/timeAxis.js',
+  entry: process.env.NODE_ENV == 'development' ? './src/main.js' : './src/timeAxis/timeAxis.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
@@ -40,14 +39,16 @@ module.exports = {
       //   test: /\.(woff|woff2|eot|ttf|otf)$/,
       //   loader: 'url-loader',
       //   options: {
-      //     limit: 100000,  //这里要足够大这样所有的字体图标都会打包到css中
+      //     limit: 10000,
+      //     name: '[name].[ext]'
       //   }
       // },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]'
+          name: 'iconfont/[name].[ext]',
+          publicPath: './dist',
         }
       },
       {
@@ -120,6 +121,6 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
-    })
+    }),
   ])
 }
