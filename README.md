@@ -2,13 +2,13 @@
 
 > 一个时间轴选择插件
 
-> [GitHub项目地址,'https://github.com/HuXiaoTu/time-axis'](https://github.com/HuXiaoTu/time-axis "GitHub")
+> [GitHub项目地址](https://github.com/HuXiaoTu/time-axis "GitHub")
 
 > 欢迎留言沟通: 13676373110@163.com
 
 ## demo演示
 
-![](https://github.com/HuXiaoTu/time-axis/blob/master/src/assets/time-axis.gif)
+![](https://github.com/HuXiaoTu/img/blob/master/time-axis.gif)
 
 ## 使用
 
@@ -120,13 +120,13 @@ GitHub项目地址[https://github.com/HuXiaoTu/time-axis](https://github.com/HuX
     └─timeAxis                  // 组件开发区
 ```
 
-## V1.0.1 版本内容更新
+#### V1.0.1 版本内容更新
 1. 修复图标不显示问题 更新README
-## V1.0.2 版本内容更新
+#### V1.0.2 版本内容更新
 1. 修复超出范围提示功能样式问题
-## V1.0.4 版本内容更新
+#### V1.0.4 版本内容更新
 1. 增加刷新功能
 2. 优化代码
-## V1.0.5 版本内容更新
+#### V1.0.5 版本内容更新
 1. 修复图标不能正常显示问题
 2. 优化插件代码，减少体积

@@ -1,7 +1,7 @@
 {
   "name": "time-shaft",
   "description": "This is a timeline plug-in",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "author": "HuXiaoTu <13676373110@163.com>",
   "license": "MIT",
   "private": false,
