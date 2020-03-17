@@ -8,6 +8,8 @@
 
 > 欢迎留言沟通: 13676373110@163.com
 
+![](https://github.com/HuXiaoTu/time-axis/blob/master/src/assets/time-axis.gif)
+
 ## 使用
 
 - ``` npm i time-shaft ```  //安装包资源
