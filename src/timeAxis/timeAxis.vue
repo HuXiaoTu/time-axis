@@ -6,9 +6,7 @@
 
 <script>
 import '../css/iconFont/iconfont.css';
-import '../css/theme/index.css';
 import dayjs from 'dayjs';
-import { Notification } from 'element-ui';
 export default {
     name: 'timeAxis',
     props: {
@@ -354,14 +352,7 @@ export default {
 
 
                 if (predictionTime.left + that.regionalScopeChange > box.offsetWidth) {
-                    Notification({
-                        title: "提示信息",
-                        offset: 100,
-                        type: "warning",
-                        message: "超出范围",
-                        duration: 500,
-                        showClose: false
-                    });
+                    that.$emit('outOfRange')
                     return
                 };
 
@@ -394,14 +385,7 @@ export default {
                 predictionTime.left = predictionTime.left - that.leftRightLength * 60;
 
                 if (liveTIme.left < 0) {
-                    Notification({
-                        title: "提示信息",
-                        offset: 100,
-                        type: "warning",
-                        message: "超出范围",
-                        duration: 500,
-                        showClose: false
-                    });
+                    that.$emit('outOfRange')
                     return
                 };
 
@@ -601,8 +585,6 @@ export default {
             }
             box.appendChild(div);
 
-            let i = document.createElement('i');
-            div.appendChild(i);
             return div;
         },
         // 创建可移动区域
@@ -698,19 +680,30 @@ export default {
 </script>
 
 <style lang="scss">
+// 时间轴颜色
+$timeAxisColor: rgb(25, 137, 250);
+// 可拖动按钮 颜色
+$positionBtnColor: rgb(25, 137, 250);
+// 可拖动区域 区域 颜色
+$positionRegionBoxColor: rgba(11, 189, 135, 0.9);
+// 可拖动区域 字体 颜色
+$positionRegionBoxTextColor: rgb(25, 137, 250);
+// 可拖动区域 拖拽三角 颜色
+$positionRegionBoxTriangleColor: rgb(25, 137, 250);
+// 当前时间点 颜色
+$nowTimeCircularColor: rgb(255, 255, 255);
+// 刷新按钮 颜色
+$refreshBtnColor: rgb(25, 137, 250);
+
 .TimeAxisContent {
     margin: 0 auto;
     position: relative;
     overflow: hidden;
     height: 85px;
-    border-radius: 8px;
-    background-color: rgb(255, 255, 255);
-    border: 1px solid #ccc;
     #TimeAxisContent {
         position: absolute;
         bottom: 20px;
         left: 40px;
-        // width: 1440px;
         height: 20px;
         z-index: 2;
         font-size: 0;
@@ -724,7 +717,7 @@ export default {
             text-align: center;
             font-size: 30px;
             cursor: pointer;
-            color: rgb(2, 58, 2);
+            color: $positionBtnColor;
             span {
                 display: none;
                 font-size: 12px;
@@ -734,16 +727,6 @@ export default {
                 top: -12px;
                 left: -60px;
                 text-align: center;
-            }
-            i {
-                display: inline-block;
-                width: 1px;
-                height: 10px;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                background-color: rgb(2, 58, 2);
-                z-index: 3;
             }
         }
         .positionBtn::before {
@@ -765,7 +748,7 @@ export default {
             bottom: 10px;
             z-index: 3;
             font-size: 12px;
-            color: rgb(2, 58, 2);
+            color: $positionRegionBoxTextColor;
             .positionRegionLeft {
                 display: none;
                 position: absolute;
@@ -790,7 +773,7 @@ export default {
                 position: absolute;
                 left: 0;
                 top: 0;
-                background-color: rgba(45, 199, 84, 0.9);
+                background-color: $positionRegionBoxColor;
                 border-radius: 3px;
                 cursor: pointer;
                 .stretchBox {
@@ -798,7 +781,7 @@ export default {
                     position: absolute;
                     right: -8px;
                     width: 8px;
-                    border-left: 8px solid #ccc;
+                    border-left: 8px solid $positionRegionBoxTriangleColor;
                     border-top: 10px solid transparent;
                     border-bottom: 10px solid transparent;
                     height: 20px;
@@ -821,7 +804,7 @@ export default {
             position: absolute;
             width: 100%;
             height: 4px;
-            background-color: rgb(1, 109, 1);
+            background-color: $timeAxisColor;
             .nowTimeCircular {
                 width: 5px;
                 height: 5px;
@@ -829,7 +812,7 @@ export default {
                 transform-origin: center;
                 transform: translateX(-2px);
                 top: 0;
-                background-color: red;
+                background-color: $nowTimeCircularColor;
                 border-radius: 50%;
             }
             .nodeDiv {
@@ -866,7 +849,7 @@ export default {
             height: 30px;
             position: absolute;
             top: -15px;
-            color: rgb(1, 109, 1);
+            color: #409eff;
             font-size: 30px;
             cursor: pointer;
         }
@@ -885,7 +868,8 @@ export default {
             width: 20px;
             height: 20px;
             font-size: 18px;
-            color: #023a02;
+            // color: #023a02;
+            color: $refreshBtnColor;
             cursor: pointer;
             font-weight: 800;
         }

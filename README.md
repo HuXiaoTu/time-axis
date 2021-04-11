@@ -93,11 +93,12 @@ isShowRefresh | 是否显示刷新按钮(Boolean) | true |
 事件名称 | 说明 | 参数
 -|-|-
 getDateMessage | 当改变时间触发 | 当前时间(Object)
+outOfRange | 移动左右箭头超出范围触发 | 无
 
 
-- getDateMessage参数详解 参数中含type字段 -- 可能出现的结果为
+**getDateMessage参数详解 参数中含type字段 -- 可能出现的结果为
   spot(拖动点触发) region(拖动区域触发) regionStretch(拉伸区域触发) autoRefresh(定时刷新触发) left(时间轴左侧箭头触发 注:切换左右按钮时间不发
-    生改变) right(时间轴右侧箭头触发 注:切换左右按钮时间不发生改变)
+    生改变) right(时间轴右侧箭头触发 注:切换左右按钮时间不发生改变)**
 
 ## 二次开发
 
@@ -130,3 +131,6 @@ GitHub项目地址[https://github.com/HuXiaoTu/time-axis](https://github.com/HuX
 #### V1.0.5 版本内容更新
 1. 修复图标不能正常显示问题
 2. 优化插件代码，减少体积
+#### v1.0.10 版本内容更新
+1. 去除超出范围提示框，增加超出范围事件
+2. 优化包体积，优化样式
