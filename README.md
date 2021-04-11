@@ -8,7 +8,7 @@
 
 ## demo演示
 
-![](https://github.com/HuXiaoTu/img/blob/master/time-axis.gif)
+![](http://www.qxxwss.cn/time-axis.gif)
 
 ## 使用
 
